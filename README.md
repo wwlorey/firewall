@@ -16,7 +16,7 @@ Considering the above, do you want someone to be able to browse from the web ser
 The examples given in class contain valid firewall configuration options, but do not specify how to save or manage the configuration in a Debian-based operating system (Debian);
 you will need to do some internet research to determine the correct way to save the configuration; we will have iptables.save installed.
 You should test your firewall configuration script on the Debian VM, and validate that it behaves as you expect, by using Wireshark to test outgoing traffic and if you can, incoming connections, perhaps via nmap or other methods.
-Submit one bash script, `fw_setup.sh`, with at least one full gramatically complete sentence comment above each configuration command describing what you are doing with EVERY line of of the configuration script; note: actually do this, we'll grade it.
+Submit one bash script, with at least one full gramatically complete sentence comment above each configuration command describing what you are doing with EVERY line of of the configuration script; note: actually do this, we'll grade it.
 You should assume that it will be run by a non-root user who has sudo priveledges.
 
 Deliverable: `fw_setup.sh`
