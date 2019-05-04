@@ -50,6 +50,7 @@ OpenSnitch information:
 * https://www.opensnitch.io/
 * https://github.com/evilsocket/opensnitch/
 * https://securityonline.info/opensnitch/
+* https://en.wikipedia.org/wiki/Personal_firewall
 
 The following may help you in writing your code review and audit of opensnitch.
 Some of these are more extensive than what you might produce for this assignment, and are just style examples.
