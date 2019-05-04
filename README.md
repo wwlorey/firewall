@@ -19,8 +19,7 @@ You should test your firewall configuration script on the Debian VM, and validat
 Submit one bash script, `fw_setup.sh`, with at least one full gramatically complete sentence comment above each configuration command describing what you are doing with EVERY line of of the configuration script; note: actually do this, we'll grade it.
 You should assume that it will be run by a non-root user who has sudo priveledges.
 
-The file should be named: 
-`fw_setup.sh`
+Deliverable: `fw_setup.sh`
 
 We will run something like this to check it:
 
