@@ -33,11 +33,11 @@ sudo iptables -S
 sudo iptables -L
 ```
 
-Deliverable: `pa07-audit.pdf`
 
 ### Option 2
 (Get a grade for pa07, and replace your lowest assignment with that same grade).
 Complete both Part 1 and Part 2 below.
+
 
 #### Part 1: 
 Perform an in-depth code review and audit of the OpenSnitch firewall, which is a python frontend (go backend) that partly employs IPtables to manage traffic on a per-process basis, with a rule for each process ID (PID).
@@ -68,6 +68,8 @@ Example audit reports for pentesting:
 * https://www.offensive-security.com/reports/sample-penetration-testing-report.pdf
 * https://darrylmacleod.wordpress.com/2012/03/26/penetration-testing-report-templates/
 * http://190.90.112.209/penetration-testing-sample-report.pdf
+
+Deliverable: `pa07-audit.pdf`
 
 
 #### Part 2: 
