@@ -36,7 +36,7 @@ sudo iptables -L
 ### Option 2
 If you do this, you don't have to do Option 1.
 For completing this option, you get a grade for pa07, and replace your lowest assignment with that same grade.
-Complete both Part 1 and Part 2 below.
+To do this option, complete both Part 1 and Part 2 below.
 
 
 #### Part 1: 
