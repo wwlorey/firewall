@@ -35,7 +35,7 @@ sudo iptables -L
 
 
 ### Option 2
-If you do this, you don't have to do Option 1
+If you do this, you don't have to do Option 1.
 For completing this option, you get a grade for pa07, and replace your lowest assignment with that same grade.
 Complete both Part 1 and Part 2 below.
 
@@ -79,5 +79,5 @@ If you feel this issue was solidly solved enough, then it may be helpful to crea
 Note: this means you have to actually code the fix, and test your code change to the software, showing a before/after for your change.
 Your improvement needs to be implemented and working.
 
-Deliverable: `before_after.pdf` which details the changes you made, showing screenshots illustrating the impact of your improvment.
+Deliverable: `pa07-before_after.pdf` which details the changes you made, showing screenshots illustrating the impact of your improvment.
 
