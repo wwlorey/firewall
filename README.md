@@ -73,10 +73,10 @@ Deliverable: `pa07-audit.pdf`
 
 
 #### Part 2: 
-You should try to tackle at least one of the outstanding GitHub issues (preferred), and if you can't find any reasonable issues to tackle, propose other code-related changes proposed to fix or improve the project (can be simple UI improvements if you can't find any security related issues).
-If you feel this issue was solidly solved enough, then it may be helpful to create a merge request for the main project.
+You should try to tackle at least one of the outstanding GitHub issues (preferred), and if you can't find any reasonable issues to tackle, find other code-related changes to fix or improve the project (can be simple UI improvements if you can't find any security related issues).
 Note: this means you have to actually code the fix, and test your code change to the software, showing a before/after for your change.
 Your improvement needs to be implemented and working.
+If you feel this issue was solidly solved enough, then it may be helpful to create a merge request for the main project.
 
 Deliverable: `pa07-before_after.pdf` which details the changes you made, showing screenshots illustrating the impact of your improvment.
 
