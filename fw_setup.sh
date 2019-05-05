@@ -4,12 +4,14 @@
 # including comments describing in detail what 
 # each componend of each command on every line does.
 
+# Note: /sbin/ is not in the path so we must prepend /sbin/ to the iptables commands
+
 # Set port 80 as open for TCP traffic
-/sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 80 -j ACCEPT
+sudo /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 80 -j ACCEPT
 
 # Set port 443 AS open for TCP traffic
-/sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 443 -j ACCEPT
+sudo /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 443 -j ACCEPT
 
 # Save the rules we just created
-iptables-save
+sudo /sbin/iptables-save
 
