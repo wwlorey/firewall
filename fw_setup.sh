@@ -16,3 +16,12 @@ sudo /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 443 -j ACCEPT
 # iptables-save dumps the iptables config to the screen, so redirect it to the rules file
 sudo bash -c "/sbin/iptables-save > /etc/iptables.rules"
 
+read -r -d '' RESTORE << EOM
+#!/bin/bash
+/sbin/iptables-restore < /etc/iptables.rules
+EOM
+
+# Restore the configuration on startup
+sudo bash -c "echo \"$RESTORE\" > /etc/network/if-pre-up.d/firewall"
+sudo chmod +x /etc/network/if-pre-up.d/firewall
+
