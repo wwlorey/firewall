@@ -13,5 +13,6 @@ sudo /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 80 -j ACCEPT
 sudo /sbin/iptables -A INPUT -m state --state NEW -p tcp --dport 443 -j ACCEPT
 
 # Save the rules we just created
-sudo /sbin/iptables-save
+# iptables-save dumps the iptables config to the screen, so redirect it to the rules file
+sudo bash -c "/sbin/iptables-save > /etc/iptables.rules"
 
