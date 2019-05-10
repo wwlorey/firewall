@@ -5,6 +5,7 @@
 # STEP 1: Clear all old rules
 #############################################
 
+
 # Flush (-F) all chain rules
 sudo /sbin/iptables -F
 # Flush chain rules for mangle table - includes PREROUTING, OUTPUT, INPUT, FORWARD, and POSTROUTING
@@ -24,6 +25,7 @@ sudo /sbin/iptables -X -t nat
 # STEP 2: Set default policies for each chain
 #############################################
 
+
 # NOTE: -P means policy
 # Default to DROP all inputs
 sudo /sbin/iptables -P INPUT DROP
@@ -38,9 +40,11 @@ sudo /sbin/iptables -P OUTPUT DROP
 #         (INPUT, FORWARD, OUTPUT)
 #############################################
 
+
 #######################
 # INPUT chain
 #######################
+
 
 # Allow established and related incoming traffic (stateful)
 # This allows return traffic to outgoing connections that were initiated by this server
@@ -64,17 +68,21 @@ sudo /sbin/iptables -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW,ESTABL
 # Catch-all to reject anything not matching the above rules
 sudo /sbin/iptables -A INPUT -j REJECT
 
+
 #######################
 # FORWARD CHAIN
 #######################
+
 
 # Assume no forwarding is required
 # Reject all forwards
 sudo /sbin/iptables -A FORWARD -j REJECT
 
+
 #######################
 # OUTPUT CHAIN
 #######################
+
 
 # Output traffic from established connections is ok
 sudo iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
@@ -83,7 +91,7 @@ sudo iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
 sudo /sbin/iptables -A OUTPUT -o lo -j ACCEPT
 
 # Allow outgoing SSH in a stateful manner
-# This rule relates only to SSH with the provided IP (above)
+# This rule should relate only to SSH with the provided IP (above)
 sudo /sbin/iptables -A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 # Allow all outgoing HTTPS connections if an established connection has been made (stateful)
@@ -105,6 +113,7 @@ sudo /sbin/iptables -A OUTPUT -j REJECT
 #############################################
 # STEP 4: Save the rules we just created
 #############################################
+
 
 # iptables-save dumps the iptables config to the screen, so redirect it to the rules file
 sudo bash -c "/sbin/iptables-save > /etc/iptables.rules"
