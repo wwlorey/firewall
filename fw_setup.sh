@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 
 
-# Write your IPtables configuration script here, 
-# including comments describing in detail what 
-# each componend of each command on every line does.
-
-
-# NOTE: /sbin/ is not in the path so we must prepend /sbin/ to the iptables commands
-
-
 #############################################
 # STEP 1: Clear all old rules
 #############################################
