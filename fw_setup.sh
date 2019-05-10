@@ -13,18 +13,18 @@
 # STEP 1: Clear all old rules
 #############################################
 
-# Flush iptables (-F)
+# Flush (-F) all chain rules
 sudo /sbin/iptables -F
-# Flush mangle table - includes PREROUTING, OUTPUT, INPUT, FORWARD, and POSTROUTING
+# Flush chain rules for mangle table - includes PREROUTING, OUTPUT, INPUT, FORWARD, and POSTROUTING
 sudo /sbin/iptables -F -t mangle
-# Flush NAT table - includes locally generated packets (PREROUTING, INPUT, OUTPUT, and POSTROUTING)
+# Flush chain rules for NAT table - includes locally generated packets (PREROUTING, INPUT, OUTPUT, and POSTROUTING)
 sudo /sbin/iptables -F -t nat
 
-# Delete chain for iptables (-X)
+# Delete (-X) all chain rules 
 sudo /sbin/iptables -X 
-# Delete chain for mangle table - includes PREROUTING, OUTPUT, INPUT, FORWARD, and POSTROUTING
+# Delete chain rules for mangle table - includes PREROUTING, OUTPUT, INPUT, FORWARD, and POSTROUTING
 sudo /sbin/iptables -X -t mangle
-# Delete chain for NAT table - includes locally generated packets (PREROUTING, INPUT, OUTPUT, and POSTROUTING)
+# Delete chain rules for NAT table - includes locally generated packets (PREROUTING, INPUT, OUTPUT, and POSTROUTING)
 sudo /sbin/iptables -X -t nat
 
 
@@ -54,22 +54,20 @@ sudo /sbin/iptables -P OUTPUT DROP
 # This allows return traffic to outgoing connections that were initiated by this server
 sudo /sbin/iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
-# Accept local traffic
+# Accept (incoming) local traffic
 sudo /sbin/iptables -A INPUT -i lo -j ACCEPT
 
 # Allow incoming SSH in a stateful manner only from the provided IP address
-sudo /sbin/iptables -A INPUT -p tcp -s 12.34.56.78 --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+sudo /sbin/iptables -A INPUT -p tcp --dport 22 -s 12.34.56.78 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 
-# Drop invalid packets
+# Drop invalid incoming packets
 sudo /sbin/iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
 
-# Allow all incoming HTTPS connections
+# Allow all incoming HTTPS connections (stateful)
 sudo /sbin/iptables -A INPUT -p tcp --dport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-sudo /sbin/iptables -A OUTPUT -p tcp --sport 443 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
-# Allow all incoming HTTP connections
+# Allow all incoming HTTP connections (stateful)
 sudo /sbin/iptables -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-sudo /sbin/iptables -A OUTPUT -p tcp --sport 80 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 # Catch-all to reject anything not matching the above rules
 sudo /sbin/iptables -A INPUT -j REJECT
@@ -86,17 +84,27 @@ sudo /sbin/iptables -A FORWARD -j REJECT
 # OUTPUT CHAIN
 #######################
 
+# Output traffic from established connections is ok
+sudo iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
 # Accept loopback output
 sudo /sbin/iptables -A OUTPUT -o lo -j ACCEPT
+
+# Allow outgoing SSH in a stateful manner
+# This rule relates only to SSH with the provided IP (above)
+sudo /sbin/iptables -A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+# Allow all outgoing HTTPS connections if an established connection has been made (stateful)
+sudo /sbin/iptables -A OUTPUT -p tcp --sport 443 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+# Allow all outgoing HTTP connections if an established connection has been made (stateful)
+sudo /sbin/iptables -A OUTPUT -p tcp --sport 80 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 # Allow outgoing connections to debian update server
 # host -t a www.debian.org produced IPs 149.20.4.15 and 128.31.0.62
 # -d <IP address> means destination
 sudo /sbin/iptables -A OUTPUT -d 149.20.4.15 -j ACCEPT
 sudo /sbin/iptables -A OUTPUT -d 128.31.0.62 -j ACCEPT
-
-# DNS allowed out on 53
-sudo /sbin/iptables -A OUTPUT -p udp --dport domain -j ACCEPT
 
 # Catch-all to reject anything not matching the above rules
 sudo /sbin/iptables -A OUTPUT -j REJECT
@@ -109,6 +117,7 @@ sudo /sbin/iptables -A OUTPUT -j REJECT
 # iptables-save dumps the iptables config to the screen, so redirect it to the rules file
 sudo bash -c "/sbin/iptables-save > /etc/iptables.rules"
 
+# Create a variable containing the text we'll dump into the restore script
 read -r -d '' RESTORE << EOM
 #!/bin/bash
 /sbin/iptables-restore < /etc/iptables.rules
