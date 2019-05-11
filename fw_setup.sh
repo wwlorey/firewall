@@ -85,7 +85,7 @@ sudo /sbin/iptables -A FORWARD -j REJECT
 
 
 # Output traffic from established connections is ok
-sudo iptables -A OUTPUT -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 # Accept loopback output
 sudo /sbin/iptables -A OUTPUT -o lo -j ACCEPT
@@ -95,12 +95,17 @@ sudo /sbin/iptables -A OUTPUT -o lo -j ACCEPT
 sudo /sbin/iptables -A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 # Allow all outgoing HTTPS connections if an established connection has been made (stateful)
-sudo /sbin/iptables -A OUTPUT -p tcp --sport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+sudo /sbin/iptables -A OUTPUT -p tcp --sport 443 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 # Allow all outgoing HTTP connections if an established connection has been made (stateful)
-sudo /sbin/iptables -A OUTPUT -p tcp --sport 80 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+sudo /sbin/iptables -A OUTPUT -p tcp --sport 80 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+# Allow new and established outgoing HTTP connections (stateful)
+# This permits traffic such as apt-get queries
+sudo /sbin/iptables -A OUTPUT -p tcp --dport 80 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 
 # Allow DNS out on port 53
+# This is needed for domain resolution on apt-get queries
 sudo /sbin/iptables -A OUTPUT -p udp --dport domain -j ACCEPT
 
 # Catch-all to reject anything not matching the above rules
