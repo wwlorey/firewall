@@ -85,7 +85,7 @@ sudo /sbin/iptables -A FORWARD -j REJECT
 
 
 # Output traffic from established connections is ok
-sudo iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 
 # Accept loopback output
 sudo /sbin/iptables -A OUTPUT -o lo -j ACCEPT
@@ -95,16 +95,13 @@ sudo /sbin/iptables -A OUTPUT -o lo -j ACCEPT
 sudo /sbin/iptables -A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 # Allow all outgoing HTTPS connections if an established connection has been made (stateful)
-sudo /sbin/iptables -A OUTPUT -p tcp --sport 443 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+sudo /sbin/iptables -A OUTPUT -p tcp --sport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 
 # Allow all outgoing HTTP connections if an established connection has been made (stateful)
-sudo /sbin/iptables -A OUTPUT -p tcp --sport 80 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+sudo /sbin/iptables -A OUTPUT -p tcp --sport 80 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 
-# Allow outgoing connections to debian update server
-# host -t a www.debian.org produced IPs 149.20.4.15 and 128.31.0.62
-# -d <IP address> means destination
-sudo /sbin/iptables -A OUTPUT -d 149.20.4.15 -j ACCEPT
-sudo /sbin/iptables -A OUTPUT -d 128.31.0.62 -j ACCEPT
+# Allow DNS out on port 53
+sudo /sbin/iptables -A OUTPUT -p udp --dport domain -j ACCEPT
 
 # Catch-all to reject anything not matching the above rules
 sudo /sbin/iptables -A OUTPUT -j REJECT
