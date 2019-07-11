@@ -1,3 +1,7 @@
+#### CS 3600 Security | Firewall setup script
+
+#### Assignment prompt:
+
 # Programming assignment 7 (pa07) -- IPtables firewall script
 Note: we're covering this material in depth early next week!
 I'm releasing early so you can get a head start.
